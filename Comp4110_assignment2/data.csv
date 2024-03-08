@@ -1,0 +1,26 @@
+test_Method,expected_output,input1,input2,Repeat
+testRepeat,helloworldhello,hello,world,2
+testRepeat,worldhelloworld,world,hello,2
+testRepeat,foobarfoo,foo,bar,2
+testRepeat,foobar123foobar,foobar,123,2
+testRepeat,123foo123,123,foo,2
+testRemove,ello,hello,h,2
+testRemove,orld,world,w,2
+testRemove,f,foo,o,2
+testRemove,fooar,foobar,b,2
+testRemove,23,123,1,2
+testSplit,h e l l o,hello, ,2
+testSplit,w o r l d,world, ,2
+testSplit,f o o,foo, ,2
+testSplit,f o o b a r,foobar, ,2
+testSplit,1 2 3,123, ,2
+testRotate,a,a,2,2
+testRotate,ldwor,world,3,2
+testRotate,oof,foo,1,2
+testRotate,arfoob,foobar,4,2
+testRotate,231,123,1,2
+testJoin,hello world,"hello" "world", ,2
+testJoin,world foo,"world" "foo", ,2
+testJoin,foo bar,"foo" "bar", ,2
+testJoin,foobar,"foobar", ,2
+testJoin,1 2 3,"1" "2" "3", ,2
