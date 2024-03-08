@@ -12,12 +12,14 @@ import java.util.List;
 
 @RunWith(Parameterized.class)
 public class StringUtils_Tester {
-    private String input1;
-    private String input2;
-    private String expectedResult;
-    private String testMethod;
-    private int repeat;
-
+    private String input1; // Input 1 is the param 1 for methods
+    private String input2;// Input 2 is the param 2 for methods
+    private String expectedResult; // Expected results of methods
+    private String testMethod; // To store and fetch method name from csv file
+    private int repeat; // we have some methods having this repeat variable so we need it for all in our data
+    // AS we know e dont usually need  constructors in Junit,b uut sometimes 
+    // when we need Data Driven testing i.e. fetching data from a source(csv in this case)
+    // we need to define the constructor 
     public StringUtils_Tester(String method_name,String input1, String input2, String expectedResult, int repeat) {
         this.testMethod = method_name;
     	this.input1 = input1;
@@ -25,13 +27,19 @@ public class StringUtils_Tester {
         this.expectedResult = expectedResult;
         this.repeat = repeat;
     }
-
+// Method which we will use to fetch the data from csv
+    // and then the data will be passed to test methods
+    
+    // naming the test for easy debugging and logging
     @Parameterized.Parameters(name = "{index}: {0}({1}, {2}) = {3} and Repeat = {4}")
     public static Collection<Object[]> data() throws IOException {
         List<Object[]> testData = new ArrayList<>();
+        // creating iterable object , as we need it to pass on data to methdos
         String csvFile = "data.csv";
         String line;
+        // using bufferReader , we are creating and reading file through FileReader class
         BufferedReader br = new BufferedReader(new FileReader(csvFile));
+        //	Headers is for first row of csv where we have headings of the columns
         String[] headers = null;
         while ((line = br.readLine()) != null) {
             if (headers == null) {
@@ -39,15 +47,15 @@ public class StringUtils_Tester {
                 continue; // Skip processing header row
             }
             String[] data = line.split(",");
-            String testMethod = data[0];
+            String testMethod = data[0]; // storing name of test method 
             String expectedOutput = data[1].trim(); // Trim to remove leading/trailing spaces
             String input1 = data[2].trim(); // Trim to remove leading/trailing spaces
             String input2 = data[3].trim(); // Trim to remove leading/trailing spaces
-            System.out.println("Repeat value from CSV: " + data[4].trim());
+            System.out.println("Repeat value from CSV: " + data[4].trim()); // debugging output on terminal
 //            int repeat = Integer.parseInt(data[4].trim()); // Trim and parse repeat
 
             int repeat = Integer.parseInt(data[4].trim()); // Trim and parse repeat
-
+// we will add data to the object normall y for our repeat, remove, and rotate method
             switch (testMethod) {
             case "testRepeat":
             case "testRemove":
@@ -55,9 +63,10 @@ public class StringUtils_Tester {
                 Object[] testCaseData = {testMethod, input1, input2, expectedOutput, repeat};
                 testData.add(testCaseData);
                 break;
+  // while for split and join we need to acutally 
             case "testSplit":
             case "testJoin":
-                // Parse the input2 as an array of words
+                // Parse the input2 as an array of wordsuse
 //                String[] words = input2.split("\\s+");
 //                Object[] splitJoinTestData = {testMethod, input1, words, expectedOutput, repeat};
 //                testData.add(splitJoinTestData);
@@ -70,12 +79,14 @@ public class StringUtils_Tester {
         }
 
         }
-
+//closing bufferReader and returning final data as list object meaning iterable
         br.close();
         return testData;
     }
 
-
+// Methods first if statement is simply checking if the name of test method is same as there own
+    // if it is then we run the test
+    // if no we pass the test without running
     @Test
     public void testRepeat() {
     	if ( testMethod.equals("testRepeat")) {
@@ -84,19 +95,27 @@ public class StringUtils_Tester {
     	}
     	}
    
-
+ // Methods first if statement is simply checking if the name of test method is same as there own
+    // if it is then we run the test
+    // if no we pass the test without running
     @Test
     public void testRemove() {
     	if ( testMethod.equals("testRemove")) {
         assertEquals(expectedResult, StringUtils.remove(input1, input2.charAt(0)));}
     }
-
+ // Methods first if statement is simply checking if the name of test method is same as there own
+    // if it is then we run the test
+    // if no we pass the test without running
     @Test
     public void testRotate() {
     	if ( testMethod.equals("testRotate")) {
         assertEquals(expectedResult, StringUtils.rotate(input1, repeat));}
     }
-
+    // Methods first if statement is simply checking if the name of test method is same as there own
+    // if it is then we run the test
+    // if no we pass the test without running
+    
+    // here in split we additionally check for the string not being empty as we wont be able to split in that case
     @Test
     public void testSplit() {
         if (testMethod.equals("testSplit")) {
@@ -106,11 +125,16 @@ public class StringUtils_Tester {
             } else {
                 // Handle the case when input2 is empty
                 // You might want to log a message or handle it differently based on your requirements
+            	// in my case I will simply ignore it and mark it as pass
             }
         }
     }
 
-
+ // for all methods first if statement is simply checking if the name of test method is same as there own
+    // if it is then we run the test
+    // if no we pass the test without running
+    
+    //here in join we additionally check if the string is empty then we cant join it 
     @Test
     public void testJoin() {
         if (testMethod.equals("testJoin")) {
@@ -120,6 +144,7 @@ public class StringUtils_Tester {
             } else {
                 // Handle the case when input2 is empty
                 // You might want to log a message or handle it differently based on your requirements
+            	// in my case I will simply ignore it and mark it as pass
             }
         }
     }
